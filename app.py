@@ -37,8 +37,11 @@ def send(imatge):
     p = os.path.join('static', 'Images', imatge)
     url_final = request.base_url + url_for('download_file', id=imatge)
 
+    key = os.getenv('RESTBAI_API')
+    print(key)
+
     payload = {
-        'client_key': os.environ.get("RESTBAI_API"),
+        'client_key': key,
         'model_id': 're_condition_c1c6',
         'image_url': url_final
     }
