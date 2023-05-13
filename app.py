@@ -2,8 +2,11 @@ import os, sys
 from flask import Flask, flash, request, redirect, url_for, render_template, send_file, request
 from werkzeug.utils import secure_filename
 import requests
+from dotenv import load_dotenv
 
 restbai_url = 'https://api-eu.restb.ai/vision/v2/multipredict'
+
+load_dotenv()  
 
 app = Flask(__name__)
 
@@ -39,7 +42,8 @@ def send(imatge):
     url_final = request.base_url + url_for('download_file', id=imatge)
 
     key = os.getenv('RESTBAI_API')
-    #print(key)
+    #key = config.RESTBAI_API
+    print(key)
 
     payload = {
         'client_key': key,
