@@ -4,10 +4,11 @@ from werkzeug.utils import secure_filename
 import requests
 import config
 
-restbai_url = 'https://api-us.restb.ai/vision/v2/multipredict'
+restbai_url = 'https://api-eu.restb.ai/vision/v2/multipredict'
 
 app = Flask(__name__)
 
+#Pàgina inicial
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
@@ -19,12 +20,14 @@ def index():
         return redirect(url_for('index'))
     return render_template('index.html')
 
-#url_for('download_file', id=nom)
-@app.route('/get_image/<id>')
+
+#Retorna una imatge guardada
+@app.route('/get/<id>')
 def download_file(id):
     p = os.path.join('uploads', id)
     return send_file(p, as_attachment=False)
 
+#Envia una imatge a restb.ai
 @app.route('/send/<imatge>')
 def send(imatge):
     p = os.path.join('uploads', imatge)
