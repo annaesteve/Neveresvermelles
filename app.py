@@ -56,6 +56,8 @@ def send(imatge):
     # The response is formatted in JSON
     json_response = response.json()
 
+    print(json_response)
+
     return render_template('result.html', resultat=json_response)
 
 #Entra a les opcions de la cuina
