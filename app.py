@@ -1,6 +1,10 @@
 import os
-from flask import Flask, flash, request, redirect, url_for, render_template, send_file
+from flask import Flask, flash, request, redirect, url_for, render_template, send_file, request
 from werkzeug.utils import secure_filename
+import requests
+import config
+
+restbai_url = 'https://api-us.restb.ai/vision/v2/multipredict'
 
 app = Flask(__name__)
 
@@ -19,7 +23,26 @@ def index():
 @app.route('/get_image/<id>')
 def download_file(id):
     p = os.path.join('uploads', id)
-    return send_file(p, as_attachment=True)
+    return send_file(p, as_attachment=False)
+
+@app.route('/send/<imatge>')
+def send(imatge):
+    p = os.path.join('uploads', imatge)
+    url_final = request.base_url + url_for('download_file', id=imatge)
+
+    payload = {
+        'client_key': config.restbai_api,
+        'model_id': 're_condition_c1c6',
+        'image_url': url_final
+    }
+    # Make the API request
+    response = requests.get(restbai_url, params=payload)
+    # The response is formatted in JSON
+    json_response = response.json()
+
+    return render_template('result.html', resultat=json_response)
+
 
 if __name__ == '__main__':
     app.run()
+
