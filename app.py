@@ -38,7 +38,7 @@ def send(imatge):
     url_final = request.base_url + url_for('download_file', id=(imatge+'.jpg'))
 
     payload = {
-        'client_key': os.environ.get("restbai_api"),
+        'client_key': os.getenv("RESTBAI_API"),
         'model_id': 're_condition_c1c6',
         'image_url': url_final
     }
