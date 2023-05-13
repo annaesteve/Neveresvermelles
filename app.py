@@ -28,13 +28,13 @@ def index():
 #Retorna una imatge guardada
 @app.route('/get/<id>')
 def download_file(id):
-    p = os.path.join('uploads', id)
+    p = os.path.join('static', 'Images', id)
     return send_file(p, as_attachment=False)
 
 #Envia una imatge a restb.ai
 @app.route('/send/<imatge>')
 def send(imatge):
-    p = os.path.join('uploads', imatge)
+    p = os.path.join('static', 'Images', imatge)
     url_final = request.base_url + url_for('download_file', id=imatge)
 
     payload = {
