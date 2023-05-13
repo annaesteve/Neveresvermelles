@@ -1,4 +1,4 @@
-import os
+import os, sys
 from flask import Flask, flash, request, redirect, url_for, render_template, send_file, request
 from werkzeug.utils import secure_filename
 import requests
@@ -10,7 +10,7 @@ app = Flask(__name__)
 #Pàgina inicial
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    app.logger.info("Inici")
+    print('Inici', file=sys.stderr)
     if request.method == 'POST':
         if 'file' in request.form:
             uploaded_file = request.files['file']
@@ -35,7 +35,7 @@ def download_file(id):
 #Envia una imatge a restb.ai
 @app.route('/send/<imatge>')
 def send(imatge):
-    app.logger.info("send")
+    print('send', file=sys.stderr)
     p = os.path.join('static', 'Images', imatge)
     url_final = request.base_url + url_for('download_file', id=imatge)
 
@@ -48,7 +48,7 @@ def send(imatge):
     response = requests.get(restbai_url, params=payload)
     # The response is formatted in JSON
     json_response = response.json()
-    app.logger.info("acabat")
+    print('acabat', file=sys.stderr)
 
     return render_template('result.html', resultat=json_response)
 
