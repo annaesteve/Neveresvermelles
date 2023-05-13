@@ -1,18 +1,15 @@
 <!doctype html>
 <html>
   <head>
-    <title>File Upload</title>
+    <title>You are in the kitchen!</title>
   </head>
   <body>
-    <h1>Choose the room you want to improve:</h1>
-    <form method="POST" action="" >
-      <button type="submit" name="Kitchen" value="value1">Kitchen</button>
-      <button type="submit" name="Bathroom" value="value2" formtarget="_blank">Bathroom</button>
+    <h1>In the kitchen, these are the items that can be improved:</h1>
+    <form method="POST" action="/fridge" >
+      <button type="submit" name="fridge" value="value1">Fridge</button>
     </form>
-    <h1>File Upload</h1>
-    <form method="POST" action="" enctype="multipart/form-data">
-      <p><input type="file" name="file"></p>
-      <p><input type="submit" value="Submit"></p>
+    <form method="POST" action="/stove" >
+      <button type="submit" name="stove" value="value2" formtarget="_blank">Stove</button>
     </form>
   </body>
 </html>
