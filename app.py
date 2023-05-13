@@ -34,7 +34,7 @@ def download_file(id):
 #Envia una imatge a restb.ai
 @app.route('/send/<imatge>')
 def send(imatge):
-    imatge = imatge + '.jpg'
+    imatge = imatge
     p = os.path.join('static', 'Images', imatge)
     url_final = request.base_url + url_for('download_file', id=imatge)
 
