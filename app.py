@@ -12,12 +12,17 @@ app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        uploaded_file = request.files['file']
-        if uploaded_file.filename != '':
-            p = os.path.join('uploads', uploaded_file.filename)
-            #uploaded_file.save(uploaded_file.filename)
-            uploaded_file.save(p)
-        return redirect(url_for('index'))
+        if 'file' in request.form:
+            uploaded_file = request.files['file']
+            if uploaded_file.filename != '':
+                p = os.path.join('uploads', uploaded_file.filename)
+                #uploaded_file.save(uploaded_file.filename)
+                uploaded_file.save(p)
+            return redirect(url_for('index'))
+
+        if 'Kitchen' in request.form:
+            return redirect(url_for('kitchen'))
+
     return render_template('index.html')
 
 
@@ -45,7 +50,11 @@ def send(imatge):
 
     return render_template('result.html', resultat=json_response)
 
+#Entra a les opcions de la cuina
+@app.route('/kitchen')
+def kitchen():
+    # render the new page template
+    return render_template('kitchen.html')
 
 if __name__ == '__main__':
     app.run()
-
