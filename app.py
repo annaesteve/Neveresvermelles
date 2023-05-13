@@ -35,7 +35,7 @@ def download_file(id):
 @app.route('/send/<imatge>')
 def send(imatge):
     p = os.path.join('static', 'Images', imatge)
-    url_final = request.base_url + url_for('download_file', id=(imatge+'.jpg'))
+    url_final = request.base_url + url_for('download_file', id=(imatge))
 
     payload = {
         'client_key': os.getenv("RESTBAI_API"),
