@@ -40,40 +40,62 @@ def send(imatge):
     p = os.path.join('static', 'Images', imatge)
     url_final = request.base_url.replace('send', 'get') 
 
-    key = os.getenv('RESTBAI_API')
+    key = os.getenv('RESTBAI_API')      #clau API restb.ai   
 
+    #foto original passada per l'AI
+    url_final = replicate.run(
+        "timothybrooks/instruct-pix2pix:30c1d0b916a6f8efce20493f5d61ee27491ab2a60437c13c588468b9810ec23f",
+        input={"image": open(p, "rb"), "prompt": ''}
+    )[0]   
+
+    #restb.ai foto original (no funciona)
     payload_original = {
         'client_key': key,
         'model_id': 're_condition_c1c6',
         'image_url': url_final
-    }
-    # Make the API request
-    response_original = requests.get(restbai_url, params=payload_original)
-    # The response is formatted in JSON
+    }    
+    response_original = requests.get(restbai_url, params=payload_original)    
     json_response_original = response_original.json()
-
+    score_original = json_response_original["response"]["solutions"]["re_condition_c1c6"]["score"]
     
-    #os.environ["REPLICATE_API_TOKEN"] = 'r8_MEI4HMiWMay10i6BA6AP6VHkD1rQZnK1i2UXN'
+    #fotos modificades
     output = replicate.run(
         "timothybrooks/instruct-pix2pix:30c1d0b916a6f8efce20493f5d61ee27491ab2a60437c13c588468b9810ec23f",
-        input={"image": open(p, "rb"), "prompt": prompt}
+        input={"image": open(p, "rb"), "prompt": prompt, "num_outputs":4}
     )
 
     print(output)
+
+    #obtenir scores de les imatges generades
+    scores = []
+    imatges = []
+    for i in range(len(output)):
+        url = output[i]    
+        payload = {
+            'client_key': key,
+            'model_id': 're_condition_c1c6',
+            'image_url': output[0]
+        }
+        response = requests.get(restbai_url, params=payload)        
+        json_response = response.json()
+
+        if json_response != None:
+            scores.append(json_response["response"]["solutions"]["re_condition_c1c6"]["score"])
+        else:
+            scores.append(-1);
     
-    payload_modificada = {
-        'client_key': key,
-        'model_id': 're_condition_c1c6',
-        'image_url': output[0]
-    }
+        img_response = requests.get(url)
+        pathGenerated = os.path.join('static', 'Generated', str(i)+'.jpg')
 
-    response_modificada = requests.get(restbai_url, params=payload_modificada)
-    # The response is formatted in JSON
-    json_response_modificada = response_modificada.json()
-
-    score_modificada = json_response_modificada["response"]["solutions"]["re_condition_c1c6"]["score"]
-
-    return render_template('result.html', score_original=json_response_original, score1=score_modificada, cerca=prompt)
+        with open(pathGenerated, "wb") as f:            
+            f.write(img_response.content)
+        
+        imatges.append('/'+pathGenerated)
+    
+    print(imatges)
+    return render_template('result.html', score0 = score_original, 
+                           score1=scores[0], score2=scores[1], score3=scores[2], score4=scores[3], cerca=prompt,
+                           image=imatges[i])
 
 if __name__ == '__main__':
     app.run(debug=True)
