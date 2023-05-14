@@ -1,12 +1,10 @@
 import os, sys
-from flask import Flask, flash, request, redirect, url_for, render_template, send_file, request
-from werkzeug.utils import secure_filename
-import requests
-import replicate
+from flask import Flask, request, redirect, url_for, render_template, send_file, request
+import requests, replicate
 from dotenv import load_dotenv
 
 restbai_url = 'https://api-eu.restb.ai/vision/v2/multipredict'
-prompt = 'sink'
+prompt = ''
 
 load_dotenv()  
 
@@ -58,10 +56,10 @@ def send(imatge):
     json_response_original = response_original.json()
     score_original = json_response_original["response"]["solutions"]["re_condition_c1c6"]["score"]
     
-    #fotos modificades
+    #enllaços de les fotos modificades
     output = replicate.run(
         "timothybrooks/instruct-pix2pix:30c1d0b916a6f8efce20493f5d61ee27491ab2a60437c13c588468b9810ec23f",
-        input={"image": open(p, "rb"), "prompt": prompt, "num_outputs":4}
+        input={"image": open(p, "rb"), "prompt": prompt, "num_outputs":4, "image_guidance_scale":2, "guidance_scale":7}
     )
 
     print(output)
