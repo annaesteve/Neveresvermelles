@@ -95,7 +95,7 @@ def send(imatge):
     print(imatges)
     return render_template('result.html', score0 = score_original, 
                            score1=scores[0], score2=scores[1], score3=scores[2], score4=scores[3], cerca=prompt,
-                           image=imatges[i])
+                           img_original=('/'+p), img0=imatges[0], img1=imatges[1], img2=imatges[2], img3=imatges[3])
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -4,18 +4,34 @@
     <title>Imatge enviada</title>
   </head>
   <body>
-    Imatge enviada. <br>
-
-    Modificació: {{cerca}} <br>  
-    
-    Resultat fotografia original: {{ score0 }} <br>
-
-    Resultat fotografia 1: {{ score1 }} <br>
-    Resultat fotografia 2: {{ score2 }} <br>
-    Resultat fotografia 3: {{ score3 }} <br>
-    Resultat fotografia 4: {{ score4 }} <br>
-
-
-    <img src= "{{image}}" >
+    <h1>Imatge enviada.</h1>
+    <p>Modificació: {{cerca}}</p>
+    <h2>Original:</h2>
+    <p><img src="{{img_original}}" /></p>
+    <p style="font-size: 1.5em;">Score: {{score0}}</p>
+    <table style="height: 106px;" width="258">
+      <tbody>
+      <tr>
+        <td style="width: 121.25px;">
+          <p><img src="{{img0}}"/></p>
+          <p>Score:{{score1}}</p>
+        </td>
+        <td style="width: 121.25px;">
+          <p><img src="{{img1}}"  /></p>
+          <p>Score:{{score2}}</p>
+        </td>
+      </tr>
+      <tr>
+        <td style="width: 121.25px;">
+          <p><img src="{{img2}}"  /></p>
+          <p>Score:{{score3}}</p>
+        </td>
+        <td style="width: 121.25px;">
+          <p><img src="{{img3}}"  /></p>
+          <p>Score:{{score4}}</p>
+        </td>
+      </tr>
+      </tbody>
+    </table>
   </body>
 </html>
