@@ -47,7 +47,7 @@ def send(imatge):
             input={"image": open(p, "rb"), "prompt": ''}
         )[0]   
 
-        #restb.ai foto original (no funciona)
+        #restb.ai foto original 
         payload_original = {
             'client_key': key,
             'model_id': 're_condition_c1c6',
