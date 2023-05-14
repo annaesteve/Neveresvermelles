@@ -60,7 +60,7 @@ def send(imatge):
         #enllaços de les fotos modificades
         output = replicate.run(
             "timothybrooks/instruct-pix2pix:30c1d0b916a6f8efce20493f5d61ee27491ab2a60437c13c588468b9810ec23f",
-            input={"image": open(p, "rb"), "prompt": prompt, "num_outputs":4, "image_guidance_scale":2, "guidance_scale":7}
+            input={"image": open(p, "rb"), "prompt": prompt, "num_outputs":4, "image_guidance_scale":1.5, "guidance_scale":7.5}
         )
 
         print(output)
