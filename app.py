@@ -66,7 +66,6 @@ def send(imatge):
 
     print(output)
 
-    #obtenir scores de les imatges generades
     scores = []
     imatges = []
     for i in range(len(output)):
@@ -74,7 +73,7 @@ def send(imatge):
         payload = {
             'client_key': key,
             'model_id': 're_condition_c1c6',
-            'image_url': output[0]
+            'image_url': output[i]
         }
         response = requests.get(restbai_url, params=payload)        
         json_response = response.json()
